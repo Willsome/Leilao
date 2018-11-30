@@ -23,8 +23,29 @@ public class Lance implements Serializable, Comparable {
     }
 
     @Override
-    public int compareTo(@NonNull Object o) {
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
         Lance lance = (Lance) o;
-        return Double.compare(lance.getValor(), valor);
+
+        if (Double.compare(lance.valor, valor) != 0) return false;
+        return usuario.equals(lance.usuario);
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = usuario.hashCode();
+        temp = Double.doubleToLongBits(valor);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        double valorDoLanceAtual = ((Lance) o).getValor();
+        return Double.compare(valorDoLanceAtual, valor);
     }
 }
